@@ -2,114 +2,60 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finalizar Compra | Biel Store</title>
+    <title>Checkout Final | Biel Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background-color: #0a0a0c; color: white; }
-        input, select { background: #16161a !important; border: 1px solid #27272a !important; color: white !important; }
-        input:focus { border-color: #db2777 !important; outline: none; }
-    </style>
 </head>
-<body class="py-10 px-4">
-
-    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+<body class="bg-[#0f1115] text-white py-12 px-4">
+    <div class="max-w-2xl mx-auto bg-[#1a1d23] p-8 rounded-2xl shadow-2xl border border-zinc-800">
+        <h2 class="text-2xl font-black mb-8 border-b border-zinc-800 pb-4 italic">CONCLUIR RECARGA</h2>
         
-        <!-- Formulário de Dados -->
-        <div class="bg-zinc-900/50 p-8 rounded-3xl border border-zinc-800">
-            <h2 class="text-2xl font-black mb-6 flex items-center gap-2">
-                <span class="bg-pink-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span> 
-                DADOS PESSOAIS
-            </h2>
-            
-            <form id="form-checkout" class="space-y-4">
+        <form id="checkout-form" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="text-xs font-bold text-zinc-500 uppercase">Nome Completo</label>
-                    <input type="text" id="nome" class="w-full p-4 rounded-xl mt-1" placeholder="Ex: Gabriel Silva" required>
+                    <input type="text" id="nome" class="w-full bg-[#0f1115] p-4 rounded border border-zinc-700 outline-none" placeholder="Digite seu nome" required>
                 </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-xs font-bold text-zinc-500 uppercase">CPF</label>
-                        <input type="text" id="cpf" class="w-full p-4 rounded-xl mt-1" placeholder="000.000.000-00" required>
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-zinc-500 uppercase">Data de Nasc.</label>
-                        <input type="date" id="nasc" class="w-full p-4 rounded-xl mt-1" required>
-                    </div>
+                <div>
+                    <label class="text-xs font-bold text-zinc-500 uppercase">CPF</label>
+                    <input type="text" id="cpf" class="w-full bg-[#0f1115] p-4 rounded border border-zinc-700 outline-none" placeholder="000.000.000-00" required>
                 </div>
-
-                <div class="pt-6">
-                    <h2 class="text-2xl font-black mb-6 flex items-center gap-2">
-                        <span class="bg-pink-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span> 
-                        PAGAMENTO
-                    </h2>
-                    <select id="metodo" class="w-full p-4 rounded-xl mb-4 font-bold cursor-pointer">
-                        <option value="PIX">PIX (Aprovação Imediata)</option>
-                        <option value="Cartão de Crédito">Cartão de Crédito</option>
-                        <option value="Mercado Pago">Mercado Pago / Saldo</option>
-                    </select>
+                <div>
+                    <label class="text-xs font-bold text-zinc-500 uppercase">Data de Nascimento</label>
+                    <input type="date" id="data_nasc" class="w-full bg-[#0f1115] p-4 rounded border border-zinc-700 outline-none" required>
                 </div>
-
-                <div class="pt-6">
-                    <h2 class="text-2xl font-black mb-6 flex items-center gap-2">
-                        <span class="bg-pink-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span> 
-                        ID DO JOGADOR
-                    </h2>
-                    <input type="number" id="playerid" class="w-full p-4 rounded-xl border-2 border-pink-600/50 font-black text-xl text-center" placeholder="DIGITE SEU ID AQUI" required>
+                <div>
+                    <label class="text-xs font-bold text-zinc-500 uppercase">E-mail para Recibo</label>
+                    <input type="email" id="email" class="w-full bg-[#0f1115] p-4 rounded border border-zinc-700 outline-none" placeholder="seu@email.com" required>
                 </div>
+            </div>
 
-                <button type="submit" class="w-full bg-green-600 hover:bg-green-500 py-5 rounded-2xl font-black text-xl mt-8 shadow-xl shadow-green-900/20 transition">
-                    FINALIZAR PAGAMENTO
-                </button>
-            </form>
-        </div>
+            <div class="bg-black/50 p-6 rounded-xl space-y-2 mt-8">
+                <div class="flex justify-between"><span>Produto:</span> <span id="out-pack" class="font-bold"></span></div>
+                <div class="flex justify-between"><span>ID Jogador:</span> <span id="out-id" class="font-bold"></span></div>
+                <div class="flex justify-between text-green-500 font-black text-xl border-t border-zinc-800 pt-2 mt-2">
+                    <span>TOTAL:</span> <span id="out-price"></span>
+                </div>
+            </div>
 
-        <!-- Resumo do Pedido -->
-        <div class="bg-zinc-900 p-8 rounded-3xl border border-zinc-800 h-fit sticky top-24">
-            <h3 class="text-xl font-bold mb-6 italic">RESUMO DO PEDIDO</h3>
-            <div class="flex justify-between items-center mb-4 pb-4 border-b border-zinc-800">
-                <span id="resumo-qtd">0 Diamantes</span>
-                <span class="font-bold text-pink-500" id="resumo-preco">R$ 0,00</span>
-            </div>
-            <div class="flex justify-between items-center text-zinc-400 text-sm mb-8">
-                <span>Taxa de processamento</span>
-                <span>R$ 0,00</span>
-            </div>
-            <div class="flex justify-between items-center text-2xl font-black">
-                <span>TOTAL</span>
-                <span class="text-green-500" id="total-final">R$ 0,00</span>
-            </div>
-            
-            <div class="mt-8 p-4 bg-black/50 rounded-xl text-[10px] text-zinc-500 leading-relaxed uppercase">
-                Ao clicar em finalizar, você concorda com nossos termos. Os diamantes são entregues via sistema oficial.
-            </div>
-        </div>
-
+            <button type="submit" class="w-full bg-pink-600 py-5 rounded-lg font-black text-xl hover:bg-pink-700 transition">FINALIZAR E PAGAR</button>
+        </form>
     </div>
 
     <script>
-        document.getElementById('resumo-qtd').innerText = localStorage.getItem('compra_qtd') + ' Diamantes';
-        document.getElementById('resumo-preco').innerText = 'R$ ' + localStorage.getItem('compra_preco');
-        document.getElementById('total-final').innerText = 'R$ ' + localStorage.getItem('compra_preco');
+        document.getElementById('out-pack').innerText = localStorage.getItem('final_pack');
+        document.getElementById('out-id').innerText = localStorage.getItem('user_id');
+        document.getElementById('out-price').innerText = "R$ " + localStorage.getItem('final_price');
 
-        document.getElementById('form-checkout').addEventListener('submit', function(e) {
+        document.getElementById('checkout-form').addEventListener('submit', function(e){
             e.preventDefault();
-            
-            // Coleta tudo
-            const dados = {
-                nome: document.getElementById('nome').value,
-                cpf: document.getElementById('cpf').value,
-                nasc: document.getElementById('nasc').value,
-                metodo: document.getElementById('metodo').value,
-                id: document.getElementById('playerid').value,
-                qtd: localStorage.getItem('compra_qtd'),
-                total: localStorage.getItem('compra_preco')
-            };
+            const pack = localStorage.getItem('final_pack');
+            const price = localStorage.getItem('final_price');
+            const id = localStorage.getItem('user_id');
+            const nome = document.getElementById('nome').value;
+            const pay = localStorage.getItem('final_pay');
 
-            // Salva para a tela final
-            localStorage.setItem('ultimo_pedido', JSON.stringify(dados));
-            window.location.href = 'sucesso.html';
+            const msg = `💎 NOVO PEDIDO BIEL STORE%0A---%0A👤 Nome: ${nome}%0A🆔 ID FF: ${id}%0A📦 Produto: ${pack}%0A💰 Valor: R$ ${price}%0A💳 Método: ${pay}%0A---%0AAguardando link de pagamento!`;
+            window.location.href = `https://wa.me/5533991160044?text=${msg}`;
         });
     </script>
 </body>
