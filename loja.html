@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Biel Store | Recarga</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .selected { border: 2px solid #ff0055 !important; background: rgba(255, 0, 85, 0.1) !important; }
+        .payment-card { border: 1px solid #27272a; cursor: pointer; transition: 0.2s; }
+        .package-card { border: 1px solid #27272a; cursor: pointer; transition: 0.2s; }
+    </style>
+</head>
+<body class="bg-[#0f1115] text-white">
+
+    <nav class="bg-[#1a1d23] p-4 border-b border-zinc-800 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <span class="font-black italic text-xl">BIEL STORE 💎</span>
+            <div id="display-id" class="bg-zinc-800 px-4 py-1 rounded text-sm font-bold text-pink-500">ID: ---</div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Coluna 1: Pagamento -->
+        <div class="bg-[#1a1d23] p-6 rounded-xl border border-zinc-800">
+            <h3 class="text-lg font-black mb-6 uppercase border-b border-zinc-800 pb-2">1. Forma de Pagamento</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="payment-card p-4 rounded-lg flex items-center gap-3" onclick="selectPay(this, 'PIX')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_Pix.png" class="w-8 h-8 object-contain">
+                    <span class="font-bold text-sm">PIX</span>
+                </div>
+                <div class="payment-card p-4 rounded-lg flex items-center gap-3" onclick="selectPay(this, 'Cartão de Crédito')">
+                    <i class="fas fa-credit-card text-pink-600 text-xl"></i>
+                    <span class="font-bold text-sm">Cartão</span>
+                </div>
+                <div class="payment-card p-4 rounded-lg flex items-center gap-3" onclick="selectPay(this, 'Mercado Pago')">
+                    <img src="https://seeklogo.com/images/M/mercado-pago-logo-6610E1854D-seeklogo.com.png" class="w-8 h-8 object-contain">
+                    <span class="font-bold text-sm">Mercado Pago</span>
+                </div>
+                <div class="payment-card p-4 rounded-lg flex items-center gap-3 italic text-zinc-500">
+                    Outros métodos em breve...
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna 2: Pacotes -->
+        <div class="bg-[#1a1d23] p-6 rounded-xl border border-zinc-800">
+            <h3 class="text-lg font-black mb-6 uppercase border-b border-zinc-800 pb-2">2. Selecione o Produto</h3>
+            <div class="space-y-3">
+                <div class="package-card p-4 rounded-lg flex justify-between items-center" onclick="selectPack(this, '110 Diamantes', '4.50')">
+                    <div class="flex items-center gap-3">
+                        <img src="https://imagensemoldes.com.br/wp-content/uploads/2020/05/Free-Fire-Diamante-PNG.png" class="w-8">
+                        <span class="font-bold">110 Diamantes</span>
+                    </div>
+                    <span class="text-green-500 font-black">R$ 4,50</span>
+                </div>
+
+                <div class="package-card p-4 rounded-lg flex justify-between items-center" onclick="selectPack(this, '341 Diamantes', '14.00')">
+                    <div class="flex items-center gap-3">
+                        <img src="https://imagensemoldes.com.br/wp-content/uploads/2020/05/Free-Fire-Diamante-PNG.png" class="w-8">
+                        <span class="font-bold">341 Diamantes</span>
+                    </div>
+                    <span class="text-green-500 font-black">R$ 14,00</span>
+                </div>
+
+                <div class="package-card p-4 rounded-lg flex justify-between items-center" onclick="selectPack(this, '572 Diamantes', '21.00')">
+                    <div class="flex items-center gap-3">
+                        <img src="https://imagensemoldes.com.br/wp-content/uploads/2020/05/Free-Fire-Diamante-PNG.png" class="w-8">
+                        <span class="font-bold">572 Diamantes</span>
+                    </div>
+                    <span class="text-green-500 font-black">R$ 21,00</span>
+                </div>
+
+                <div class="package-card p-4 rounded-lg flex justify-between items-center" onclick="selectPack(this, '1.166 Diamantes', '45.00')">
+                    <div class="flex items-center gap-3">
+                        <img src="https://imagensemoldes.com.br/wp-content/uploads/2020/05/Free-Fire-Diamante-PNG.png" class="w-8">
+                        <span class="font-bold">1.166 Diamantes</span>
+                    </div>
+                    <span class="text-green-500 font-black">R$ 45,00</span>
+                </div>
+            </div>
+
+            <button onclick="prosseguir()" class="w-full bg-green-600 mt-8 py-4 rounded-lg font-black text-lg hover:bg-green-500 transition">PROSSEGUIR PARA O PAGAMENTO</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('display-id').innerText = "ID: " + localStorage.getItem('user_id');
+        let selectedPay = "";
+        let selectedPack = "";
+        let selectedPrice = "";
+
+        function selectPay(el, val) {
+            document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedPay = val;
+        }
+
+        function selectPack(el, name, price) {
+            document.querySelectorAll('.package-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedPack = name;
+            selectedPrice = price;
+        }
+
+        function prosseguir() {
+            if(!selectedPay || !selectedPack) { alert("Selecione o pagamento e o pacote!"); return; }
+            localStorage.setItem('final_pay', selectedPay);
+            localStorage.setItem('final_pack', selectedPack);
+            localStorage.setItem('final_price', selectedPrice);
+            window.location.href = 'checkout.html';
+        }
+    </script>
+</body>
+</html>
