@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Biel Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0f1115] text-white flex items-center justify-center min-h-screen p-4">
+    <div class="max-w-md w-full bg-[#1a1d23] p-8 rounded-2xl border border-zinc-800 shadow-2xl">
+        <h2 class="text-xl font-bold mb-6 border-b border-zinc-800 pb-4">Acessar com ID de Jogador</h2>
+        
+        <div class="space-y-4">
+            <label class="block text-sm text-zinc-400 uppercase font-bold">ID do Jogador</label>
+            <input type="number" id="id_ff" placeholder="Ex: 123456789" class="w-full bg-[#0f1115] border border-zinc-700 p-4 rounded-lg focus:border-pink-600 outline-none text-xl font-bold">
+            <button onclick="logar()" class="w-full bg-pink-600 hover:bg-pink-700 py-4 rounded-lg font-black text-lg transition">LOGIN</button>
+            <a href="index.html" class="block text-center text-sm text-zinc-500 mt-4 underline">Voltar para seleção</a>
+        </div>
+    </div>
+
+    <script>
+        function logar() {
+            const id = document.getElementById('id_ff').value;
+            if(id.length < 5) { alert('Digite um ID válido!'); return; }
+            localStorage.setItem('user_id', id);
+            window.location.href = 'loja.html';
+        }
+    </script>
+</body>
+</html>
